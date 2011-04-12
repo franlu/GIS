@@ -1,7 +1,25 @@
 #!/bin/sh
+#       p7.sh
+#       
+#       Copyright 2011 Fco Javier Lucena <fran.lucena@gmail.com>
+#       
+#       GIS is free software; you can redistribute it and/or modify
+#       it under the terms of the GNU General Public License as published by
+#       the Free Software Foundation; either version 3 of the License, or
+#       (at your option) any later version.
+#       
+#       GIS is distributed in the hope that it will be useful,
+#       but WITHOUT ANY WARRANTY; without even the implied warranty of
+#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#       GNU General Public License for more details.
+#       
+#       You should have received a copy of the GNU General Public License
+#       along with GIS; if not, write to the Free Software
+#       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#       MA 02110-1301, USA.
 
 #
-# Funcion para cargar las coordenas en variables
+# Function to load the coordinates into variables
 #
 getCoord( ) {
 X=$1;
@@ -9,58 +27,57 @@ Y=$2;
 	}
 
 #
-# Funcion para cargar la altura en la variable Z
+# Function to load the variable height in the Z
 #
 getZ( ) {
 Z=$(./u.getZ.py $1); 
         }
 
-# ==================  E N T R A D A    D E    D A T O S  ==================================
+# ======================  DATA ENTRY  ==================================
 
-#
-# Leemos la posicion de la toma del canal
-#
+# Read the position of the outlet channel
+
 d.mon start=x0 > /dev/null 2> /dev/null
 d.rast elevation.dem > /dev/null 2> /dev/null
 d.vect roads color=black > /dev/null 2> /dev/null
 d.vect streams color=cyan width=2 > /dev/null 2> /dev/null
 
-echo FRANCISCO JAVIER LUCENA LUCENA - P7 GIS
+echo FRANCISCO JAVIER LUCENA LUCENA
 echo Indica la posicion de la toma
 
 
 getCoord $(d.where -1)
 getZ $(r.what elevation.dem east_north=$X,$Y)
-HT=$Z;			# Altura de la toma
-XT=$X;			# Posicion de la toma
+HT=$Z;			# height
+XT=$X;			# position
 YT=$Y;
 
 echo "Toma en: $XT,$YT a altura: $HT"
-#
-# Leemos la posicion del desagüe del canal
-#
+
+# Read the position of the drainage channel
+
 echo Indica la posicion del desagüe
 
 getCoord $(d.where -1)>/dev/null
 getZ $(r.what elevation.dem east_north=$X,$Y)
-HD=$Z;			# Altura del desagüe
-XD=$X;			# Posicion del desagüe
+HD=$Z;			# height
+XD=$X;			# position
 YD=$Y;
 echo "Desagüe en: $XD,$YD a altura: $HD"
 
-# ===========  C A L C U L O   D E   L A   S U P E R F I C I E   D E   C O S T E ======================
+# ===================  calculate the cost surface ======================
 #
 # Calculo del mapa de coste unitario
 #
-# 	Concepto				Coste por metro  
-# Canalización						 200,00 €
+# Concepto				                      Coste por metro  
+# Canalización						              200,00 €
 # Hasta 5m de elevación sobre terreno
-#  		Muro soporte (por m de altura)		 200,00 €
+#  		Muro soporte (por m de altura)		      200,00 €
 # Más de 5m de elevación sobre el terreno
-#		Estructura acueducto			1000,00 €
-#		Soporte acueducto (por m de altura) 	 100,00 €
+#		Estructura acueducto			         1000,00 €
+#		Soporte acueducto (por m de altura) 	  100,00 €
 # Soterramiento
-#		Excavación y pared (por m de altura)	 300,00 €
+#		Excavación y pared (por m de altura)	  300,00 €
 
 # Creamos mapas de distancias para estimar la altura del canal
 
@@ -79,11 +96,11 @@ r.mapcalc "HTeo=($HD*dToma +$HT*dDesague)/(dToma+dDesague)" > /dev/null  2> /dev
 
 g.region res=30 > /dev/null 2> /dev/null	# Nos aseguramos de tner resolucion de 30 m
 # coste por celda en K€ (resolucion 3ox30) es
-# Canalización						 6,00 k€
+# Canalización						             6,00 k€
 # Hasta 5m de elevación sobre terreno
-#  		Muro soporte (por m de altura)		 6,00 k€
+#  		Muro soporte (por m de altura)		     6,00 k€
 # Más de 5m de elevación sobre el terreno
-#		Estructura acueducto			60,00 k€
+#		Estructura acueducto			        60,00 k€
 #		Soporte acueducto (por m de altura) 	 3,00 k€
 # Soterramiento
 #		Excavación y pared (por m de altura)	 9,00 k€
@@ -91,7 +108,6 @@ g.region res=30 > /dev/null 2> /dev/null	# Nos aseguramos de tner resolucion de 
 g.remove rast=cuCanal > /dev/null 2> /dev/null
 g.copy rast=elevation.dem,H > /dev/null 2> /dev/null	# Para poder abreviar en las formulas
 
-#echo FALTAN INSTRUCCIONES PARA CREAR EL MAPA DE COSTE UNITARIO @@
 
 #altura del canal sobre el mapa de elevacion
 g.remove rast=diferencia > /dev/null 2> /dev/null
@@ -99,13 +115,9 @@ r.mapcalc "diferencia=HTeo-H" > /dev/null 2> /dev/null
 r.mapcalc "cuCanal=if((diferencia<0),6+abs(diferencia)*9,if((diferencia==0),6,if((diferencia>0 && diferencia<=5),6+diferencia*6,if((diferencia>5),6+60+3*diferencia,6))))" > /dev/null 2> /dev/null
 
 # Calculo de la superficie de coste
-#
 
 g.remove rast=coste > /dev/null  2> /dev/null
 r.cost -k input=cuCanal output=coste coordinate=$XT,$YT > /dev/null 2> /dev/null
-
-#echo FALTAN INSTRUCCIONES PARA CREAR LA SUPERFICIE DE COSTE @@
-
 
 #  Mostranos el coste total
 #
@@ -118,8 +130,6 @@ echo "El coste es: $COSTE k€"
 # ==============  C A L C U L O   D E L   C A M I N O   M I N I M O  =========================
 #
 
-
-#echo FALTAN INSTRUCCIONES PARA GENERAR CAMINO MINIMO @@
 
 g.remove rast=canal > /dev/null  2> /dev/null
 r.drain coste output=canal coordinate=$XD,$YD > /dev/null 2> /dev/null
@@ -155,7 +165,7 @@ d.out.file output=canal  res=1 format=png compression=0 quality=75 > /dev/null 2
 
 # =========================== N V I Z ======================================
 
-echo Dibujando mapa con nviz
+#echo Dibujando mapa con nviz
 
 #Si da problemas nviz eliminar estas tres instrucciones y poner elevation=elevation.dem
 #g.remove rast=elevacion > /dev/null  2> /dev/null
