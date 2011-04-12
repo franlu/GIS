@@ -1,32 +1,23 @@
 #!/bin/sh
-# ==================================================================================================
-# Sistemas de Información Geográfica
-# practica 5
-# Curso 07/08
-# Juan Carlos Torres
-# Dpto. Lenguajes y Sistemas Informaticos
-# Univ. de Granada
-# http://lsi.ugr.es/~jctorres/gis
-# ==================================================================================================
 #
-# This script is distributed under GPL license to be used with GRASS using Spearfish dataset
-# 
-# ==================================================================================================
-# 
-# PLANTILLA PARA LA PRACTICA 5
-#
-# Realiza un paso de iteraccion 
-#
-#===================================================================================================
-#
-# Argumentos:   $1 numero del mapa del estado anterior
-#		$2 numero del mapa a generar
-#
-#====================================================================================================
-#
-#	FCO JAVIER LUCENA LUCENA	P6 - GIS
-#
-#====================================================================================================
+#       p6.sh
+#       
+#       Copyright 2011 Fco Javier Lucena <fran.lucena@gmail.com>
+#       
+#       GIS is free software; you can redistribute it and/or modify
+#       it under the terms of the GNU General Public License as published by
+#       the Free Software Foundation; either version 3 of the License, or
+#       (at your option) any later version.
+#       
+#       GIS is distributed in the hope that it will be useful,
+#       but WITHOUT ANY WARRANTY; without even the implied warranty of
+#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#       GNU General Public License for more details.
+#       
+#       You should have received a copy of the GNU General Public License
+#       along with GIS; if not, write to the Free Software
+#       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#       MA 02110-1301, USA.
 
 # 
 # Calculo del mapa f$2 a partir del f$1 y de los mapas de parametros
