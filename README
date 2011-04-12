@@ -38,3 +38,18 @@ water (no more than 200 m) and be close to a road other than the
 interstate (within 200 m). Moreover, the field should be level 
 (less than 6 meters), with no less than 22,000 m2.
 
+========================================================================
+================================  p6.sh ================================
+========================================================================
+
+Simulation:
+Simulate the growth of a fire, assuming:
+- The wind blows from the northwest.
+- The combustion process of a cell passes through four states: no
+  burning, overheating, burning and burned.
+- The fire may spread to neighboring cells in the direction of the wind.
+- Time is on fire the cell depends on the forest.
+- The time it takes to burn the cell depends on the vegetation.
+- Only fire spread cells that are burning. Neighboring cells,
+  from the direction from which the wind blows, which was burning a pass
+  to overheat and then burn.
