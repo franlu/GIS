@@ -1,0 +1,13 @@
+========================================================================
+================================  p2.sh ================================
+========================================================================
+
+Resampling and interpolation of raster maps:
+Generates a map of areas at risk of flooding at a resolution of 5 m.
+The areas at risk of flooding those whose altitude is below 1450 m
+and its slope is less than 3 º. The map generated shows the relief 
+and curves level, roads, rivers and flood risk areas in red
+
+========================================================================
+================================  p3.sh ================================
+========================================================================
