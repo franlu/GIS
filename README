@@ -67,3 +67,17 @@ depending on the height of the cell and height to which would be the
 channel. If the gap between the ends of the channel is small, we can 
 assume that the channel height is constant and equal to that of the shot,
 would simplify the calculation.
+
+========================================================================
+================================  p8.sh ================================
+========================================================================
+
+It is increasingly important to the prevention of forest fires, due to 
+lower of forest that occurs during periods of drought in Spain and 
+especially in Andalucia.
+Then we develop a scritp through grass to help you visualize on vegetation 
+maps, the area where will the firewall. 
+The script presents a map where the user determines the starting point 
+and purpose of the firewall.
+It will generate a simulated fire situation in each instant of time,
+to complete the distance occupied by the firewall.
