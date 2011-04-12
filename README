@@ -11,3 +11,9 @@ and curves level, roads, rivers and flood risk areas in red
 ========================================================================
 ================================  p3.sh ================================
 ========================================================================
+
+Conversion:
+Generates a map of the Spearfish National Park (plot 63 on the map
+fields), showing the relief and contour lines inside the park and roads
+and rivers all over the map.
+
