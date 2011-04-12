@@ -59,13 +59,9 @@ echo
 g.remove vect=fuego >/dev/null 2> /dev/null
 getCoord $(d.where -1)
 echo  "$X| $Y| 3" |v.in.ascii output=fuego format=point cat=3  >/dev/null 2> /dev/null
-#
-# EL TERCER VALOR DEL echo ES LA CATEGORIA DE UNA CELDA ARDIENDO MODIFICALA 
-# SI UTILIZAS UN DIGRAMA DE ESTADOS DISTINTO DE EL DEL GUION.
-#  No dejar espacio antes del separador 
 
 #
-# Creamos el mapa raster f0 (estado inicial del fuego
+# Creamos el mapa raster f0 (estado inicial del fuego)
 g.remove f0 >/dev/null
 v.to.rast input=fuego layer=1 output=f0 use=cat >/dev/null 2> /dev/null
 
