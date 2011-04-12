@@ -27,3 +27,14 @@ from the active region from vector map contours. To do this we create a
 vector map of contour lines restricted to the active region and create a
 map by interpolation v.surf.rst. To reduce the computing time
 interpolated to a lower resolution first, then build the final model.
+
+========================================================================
+================================  p4.sh ================================
+========================================================================
+
+Raster Analysis:
+Search potential locations for a brewery in the light you need to have 
+water (no more than 200 m) and be close to a road other than the 
+interstate (within 200 m). Moreover, the field should be level 
+(less than 6 meters), with no less than 22,000 m2.
+
