@@ -17,3 +17,13 @@ Generates a map of the Spearfish National Park (plot 63 on the map
 fields), showing the relief and contour lines inside the park and roads
 and rivers all over the map.
 
+========================================================================
+================================  p4.sh ================================
+========================================================================
+
+Creation of an elevation model:
+A macro to generate the digital elevation model at a resolution of 15 m
+from the active region from vector map contours. To do this we create a 
+vector map of contour lines restricted to the active region and create a
+map by interpolation v.surf.rst. To reduce the computing time
+interpolated to a lower resolution first, then build the final model.
