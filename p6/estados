@@ -1,0 +1,5 @@
+11 31 32 91 92 = 0 No Prende
+41 42 43 51 71 81 83 = 1 Prende Rapido	
+23 82 85 = 2 Prende Normal
+21 22 = 3 Prende Lento
+end

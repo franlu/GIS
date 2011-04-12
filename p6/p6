@@ -1,0 +1,85 @@
+#!/bin/sh
+#       p6.sh
+#       
+#       Copyright 2011 Fco Javier Lucena <fran.lucena@gmail.com>
+#       
+#       GIS is free software; you can redistribute it and/or modify
+#       it under the terms of the GNU General Public License as published by
+#       the Free Software Foundation; either version 3 of the License, or
+#       (at your option) any later version.
+#       
+#       GIS is distributed in the hope that it will be useful,
+#       but WITHOUT ANY WARRANTY; without even the implied warranty of
+#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#       GNU General Public License for more details.
+#       
+#       You should have received a copy of the GNU General Public License
+#       along with GIS; if not, write to the Free Software
+#       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+#       MA 02110-1301, USA.
+
+
+# Funcion para cargar las coordenas en variables
+#
+getCoord( ) {
+X=$1;
+Y=$2;	
+	}
+
+#
+# Calculo de los mapas de parametros necesarios en el proceso
+#
+
+echo Creando mapas de parametros
+
+#
+# Leemos foco del fuego sobre landcover.30m creado el mapa vectorial fuego
+#
+
+#Reclasificamos para categorias que prenden-arden
+g.remove rast=como_prenden
+g.remove rast=como_arden
+cat estados | r.reclass input=landcover.30m output=como_prenden 
+cat estados1 | r.reclass input=landcover.30m output=como_arden 
+
+#Anulamos las categorias que no prenden-arden
+g.remove rast=solo_prenden
+g.remove rast=solo_arden
+r.mapcalc "solo_prenden=como_prenden" 
+r.mapcalc "solo_arden=como_arden"
+r.null map=solo_prenden setnull=0
+r.null map=solo_arden setnull=0
+
+d.mon start=x0 > /dev/null 2> /dev/null
+d.rast landcover.30m
+
+echo
+echo Indica la posicion de foco
+echo
+g.remove vect=fuego >/dev/null 2> /dev/null
+getCoord $(d.where -1)
+echo  "$X| $Y| 3" |v.in.ascii output=fuego format=point cat=3  >/dev/null 2> /dev/null
+#
+# EL TERCER VALOR DEL echo ES LA CATEGORIA DE UNA CELDA ARDIENDO MODIFICALA 
+# SI UTILIZAS UN DIGRAMA DE ESTADOS DISTINTO DE EL DEL GUION.
+#  No dejar espacio antes del separador 
+
+#
+# Creamos el mapa raster f0 (estado inicial del fuego
+g.remove f0 >/dev/null
+v.to.rast input=fuego layer=1 output=f0 use=cat >/dev/null 2> /dev/null
+
+echo Creado el mapa de estado inicial del fuego
+
+# cambiamos el color
+cat fuego.color |r.colors f0 color=rules >/dev/null 2> /dev/null
+
+./bucle.py
+
+echo 
+echo FIN DEL PROCESO
+echo
+
+
+
+
