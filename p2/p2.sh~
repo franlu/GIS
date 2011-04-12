@@ -1,0 +1,33 @@
+#!/bin/sh
+#Fco Javier Lucena Lucena p2-GIS 2008/09
+
+# Borra los mapas pintados anteriormente
+# Establecer monitor de salida
+# Cambiar la resolucion
+d.erase
+d.mon start=x0
+g.region res=5
+
+g.remove rast=curvas_nivel
+r.bilinear input=elevation.dem@PERMANENT output=curvas_nivel
+
+g.remove rast=nivel
+cat pendiente.reclass | r.recode curvas_nivel output=nivel
+cat colores1 | r.colors nivel color=rules
+d.rast map=nivel -o
+
+
+g.remove rast=pendientes
+r.bilinear input=slope output=pendientes
+
+g.remove rast=inundable
+cat inundable.reclass | r.recode pendientes output=inundable
+cat colores | r.colors inundable color=rules
+d.rast map=inundable -o
+
+d.vect roads color=0:0:0
+d.vect streams color=blue
+
+echo "Zonas Inundables" | d.text at=60,5 size=4 color=red -b
+
+d.barscale at=5.0,90.0
