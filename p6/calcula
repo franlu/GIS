@@ -20,26 +20,24 @@
 #       MA 02110-1301, USA.
 
 # 
-# Calculo del mapa f$2 a partir del f$1 y de los mapas de parametros
+# Calculation of the map f$2 from f$1 and maps parameters
 #
 
-#echo FALTAN INSTRUCCIONES PARA CALCULAR AVANCE DEL FUEGO @@
-
-#Hay celdas ardiendo??
+#Cells are burning?
 r.mapcalc "noroeste=if(solo_prenden > 0 && ((f$1[-1,-1] > 3 && f$1[-1,-1] < 7) || (f$1[0,-1] > 3 && f$1[0,-1] < 7)|| (f$1[-1,0] > 3 && f$1[-1,0] < 7)), f$1 + 1, f$1)"
 
-#Incrementar celdas que arden
+#Increasing burn cells
 r.mapcalc "f$2=if(noroeste < 4, if(solo_prenden == noroeste, 4, noroeste + 1), if(noroeste < 7, if(solo_arden == noroeste, 7, noroeste + 1), if(noroeste != 0, 7, 7)))"
 
 r.mapcalc "f$2=if(f$1 < 3, if(noroeste == 1, f$1 + 1, f$1), if(f$1 < 7, f$1 + 1, f$1))"
 r.mapcalc "f$2=if(f$1 < 4, if(noroeste == 1, if(solo_prenden == f$1, 4, f$1 + 1), f$1), if(f$1 < 7, if(noroeste == 1, if(solo_prenden == f$1, 7, f$1 + 1), f$1)))"
 
-# Asignar paleta de colores al mapa nuevo
+# Assign color palette to new map
 
 r.colors f$2 rast=f$1 >/dev/null  2>/dev/null 
 
 #
-# Dibujo del incendio sobre landcover.30m
+# Drawing on fire landcover.30m
 #
 d.rast landcover.30m
 
