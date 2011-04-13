@@ -25,12 +25,9 @@ d.erase
 #g.remove rast=Paisaje_uf_2005
 
 #El mapa vectorial Paisajes_uf_2005 ocupa 250 MG
-#Lo he generado pero no se lo envio
 
 #v.in.ogr dns=../Shapes/ufpaisaje.shp output=Paisaje_uf_2005
 
-
-#He obtenido el raster, que si va incluido en el mapset 
 
 #g.remove rast=parcela_vegetacion
 #v.to.rast input=Paisaje_uf_2005 output=RPaisaje_uf_2005 use=cat
